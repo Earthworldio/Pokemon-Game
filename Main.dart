@@ -6,7 +6,7 @@ main(List<String> args) {
   game .printGameName();  
   String input = stdin.readLineSync()!;
   bool isFinish = false;
-  while (isFinish != true ) {
+   while (isFinish != true ) {
     if (input == 'A') {
       game.Rungame();    
       isFinish = true;  
@@ -14,5 +14,5 @@ main(List<String> args) {
       print("Mismatch input");
       isFinish = true;
     }
-  }
+   }
 }

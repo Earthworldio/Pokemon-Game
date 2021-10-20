@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:math';
 import 'Player.dart';
 import 'Pokemon.dart';
+import 'Shop.dart';
+
 
 class Game {
   Player? player = null;
@@ -9,6 +11,8 @@ class Game {
   Pokemon? pokemonMedium = null;
   Pokemon? pokemonHard = null;
   Pokemon? pk = null;
+  Shop? sh = null;
+
   
   var nameGame = (r''' 
                                   ,'\
@@ -307,6 +311,7 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
     stdout.write("Enter your name : ");
     String name = stdin.readLineSync()!;
     player = Player(name);
+    player!.Item.add(' Don\'t have Item ');
     print("Hello $name , Welconme to Pokemon World !");
     stdout.write("Pick you partner [1] Wartortle  [2] Charmander [3] Squirtle : ");
     int num = int.parse(stdin.readLineSync()!);
@@ -337,7 +342,7 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
       pk!.skill.add('WINTER CURSE (+30 HP)');
     }
     mainMenu();
-    Gym();
+
   }
 
   void mainMenu(){
@@ -350,7 +355,7 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
         Gym();
         mainMenu();
       }else if(input==2){     
-        Shop();
+        buyshop();
         mainMenu();
       }else if(input==3){
         print('');
@@ -358,12 +363,19 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
         mainMenu();
       }
   }
-  void Shop(){
-    
+  void buyshop(){
+    stdout.write('[1] Potion  [2] Evolution  : ');
+    int input = int.parse(stdin.readLineSync()!);
+    sh = Shop('name');
+    if(input==1){
+       sh!.potion(player!);
+    }else if(input==2){
+       sh!.evolution(player!, pk!);
+    }
   }
 
   void Profile(){
-    print('Player : Name : ${player!.name}  Lvl : ${player!.lvl}  Gold : ${player!.gold}  Exp : ${player!.exp}'  );
+    print('Player : Name : ${player!.name}  Lvl : ${player!.lvl}  Gold : ${player!.gold}  Exp : ${player!.exp}  Item : ${player!.Item[0]}'  );
     print('Pokemon : Name : ${pk!.name}  Lvl: ${pk!.lvl}  Hp : ${pk!.hp}  Exp : ${pk!.exp}');
   }
  
@@ -423,17 +435,16 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
   void getExp(Pokemon pokemon , Player player , Pokemon bot ){   
     if(player.lvl!=3){ 
       if(bot.lvl ==1){
-        pokemon.exp+=1000;                                             
-        player.exp+=1000;
+        pokemon.exp+=350;                                             
+        player.exp+=350;
       }else if(bot.lvl ==2){
-        pokemon.exp+=500;
-        player.exp+=500;
+        pokemon.exp+=550;
+        player.exp+=550;
       }else if(bot.lvl ==3){
-        pokemon.exp+=100;
-        player.exp+=1000;
+        pokemon.exp+=1050;
+        player.exp+=1050;
       }    
     }
-    
   }
 
   void isLevelup(Pokemon pokemon ,  Player player){
@@ -476,19 +487,21 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
         |     Enemies hp : ${enemies.hp}            |  
         |_________________________________|
         ''');
-        pk!.showPoke();
-        pk!.printSkill();
+        player.Showpoke();
+        pk!.printSkill(player);
         stdout.write(' Enter you skill : ');
         int input = int.parse(stdin.readLineSync()!);
-        pk!.useSkillLvl1(input, enemies, us);
+        pk!.useSkillLvl1(input, enemies, us, player);
         delay(750);
         refresh();
         print('[ Enemies turn ] ');
         enemies.showPoke();
         PokemonBotskill(enemies , us);
         delay(750);     
-        if(enemies.hp <=0 || us.hp <= 0){
-           if(us.hp<=0){
+          if(enemies.hp==0&& us.hp==0){
+              print('Draw');
+              break;
+          }else if(us.hp<=0){
              print('\x1B[30m[ You lose ] \x1B[0m');
              reset(pk!);
              delay(750);        
@@ -502,8 +515,7 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
              mainMenu();          
              delay(750);            
              break;
-           }         
-        }
+           }                
         refresh();
      }
   }
@@ -527,27 +539,27 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
     int rnd = random(100);
     if(bot.lvl==1){ 
         if(rnd <65){
-          player.hp-=15;
-          bot.hp+=15;
+          player.hp-=10;
+          bot.hp+=5;
         }else if (rnd>=65|| rnd <=99){
           player.hp-=20;
-          bot.hp+=20;
+          bot.hp+=10;
         }    
     }else if(bot.lvl==2){
-        if(rnd <60){
-          player.hp-=;
-          bot.hp+=25;
-        }else if (rnd>=60 || rnd <=99){
+        if(rnd <65){
+          player.hp-=20;
+          bot.hp+=10;
+        }else if (rnd>=65 || rnd <=99){
           player.hp-=40;
-          bot.hp+=40;
+          bot.hp+=20;
         }    
     }else if(bot.lvl==3){
-        if(rnd <70){
-          player.hp-=40;
+        if(rnd <65){
+          player.hp-=30;
+          bot.hp+=15;
+        }else if (rnd>=65 || rnd <=99){
+          player.hp-=80;
           bot.hp+=40;
-        }else if (rnd>=70 || rnd <=99){
-          player.hp-=65;
-          bot.hp+=65;
         } 
     }
   }

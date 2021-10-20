@@ -4,6 +4,7 @@ class Player {
   int lvl = 0;
   int exp = 0;
   List<String> playerPokemon = [];
+  List<String> Item = [];
   
   Player(String name) {
     this.name = name;
@@ -11,7 +12,10 @@ class Player {
     lvl = 1;
     exp=0;
   }
-
+  
+  void Showpoke(){
+    print(playerPokemon);
+  }
   
 
 }
