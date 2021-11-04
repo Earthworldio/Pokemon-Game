@@ -1,18 +1,36 @@
+import 'Game.dart';
 import 'Player.dart';
 
 class Pokemon {
   String name = '';
   int hp = 0;
+  int maxhp=0;
   int lvl = 0;
   int exp = 0;
   List<String> skill = [];
   String picturePoke ='';
+  Game? gm = null;
+  bool error = false;
   
   Pokemon (String name) {
     this.name = name;
     hp = 100;
+    maxhp=100;
     lvl = 1;
   }
+ 
+  String showHp(){
+    var bar = hp*100/maxhp; 
+     var std = '';
+    for(int i =1 ; i<=bar/10;i++){
+      std+='█';
+    }
+    return '\x1B[32m$std\x1B[0m'+" ( ${hp.toString()} )";
+  }
+
+
+  
+ 
   
   void printSkill(Player player){
     print('[1] ${skill[0]}');
@@ -33,10 +51,10 @@ class Pokemon {
       while(true){
       if(us.lvl==1){
         if(input==1){      
-          enemies.hp-=25;   
+          enemies.hp-=20;   
           break;  
         }else if(input==2){     
-          us.hp+=25;
+          us.hp+=20;
           break; 
         }else if(input==3){    
          if(player.Item[0] == 'Potion'){
@@ -46,15 +64,16 @@ class Pokemon {
           break; 
          }else if(player.Item != 'Potion'){
            print('No item');
+            error=true;
             break; 
          }
         }
       }else if(us.lvl==2){
         if(input==1){      
-          enemies.hp-=50;   
+          enemies.hp-=40;   
           break;  
         }else if(input==2){     
-          us.hp+=50;
+          us.hp+=40;
           break; 
         }else if(input==3){     
          if(player.Item[0] == 'Potion'){
@@ -64,15 +83,16 @@ class Pokemon {
             break; 
          }else if(player.Item != 'Potion'){
            print('No item');
+           error=true;
             break; 
          }
         }  
       }else if (us.lvl==3){
         if(input==1){      
-          enemies.hp-=100;   
+          enemies.hp-=70;   
           break;  
         }else if(input==2){     
-          us.hp+=65;
+          us.hp+=70;
           break; 
         }else if(input==3){     
          if(player.Item[0] == 'Potion'){
@@ -82,12 +102,14 @@ class Pokemon {
             break; 
          }else if(player.Item != 'Potion'){
            print('No item');
-            break; 
+           error=true;
+           break; 
          }
         }  
       }
       
     }
+    
   }
 }
 

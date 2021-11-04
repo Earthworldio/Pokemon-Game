@@ -50,7 +50,7 @@ class Shop{
            `-.__ `,  `'   .  _.>----''.  _  __  /
                 .'        /"'          |  "'   '_
                /_|.-'\ ,".             '.'`__'-( \
-                 / ,"'"\,'               `/  `-.|" mh
+                 / ,"'"\,'               `/  `-.|" 
   ''');
   var dk2 = (r'''
                  ."-,.__
@@ -91,7 +91,7 @@ class Shop{
            `-.__ `,  `'   .  _.>----''.  _  __  /
                 .'        /"'          |  "'   '_
                /_|.-'\ ,".             '.'`__'-( \
-                 / ,"'"\,'               `/  `-.|" mh
+                 / ,"'"\,'               `/  `-.|"
   ''');
  
    void potion( Player player){
@@ -105,13 +105,22 @@ class Shop{
       }
   }
 
-  void evolution( Player player , Pokemon pokemon){
-      pokemon.name = pokemon.name+' Evolution';
-      if(player.gold >= 300 && player.lvl>1){
+  void evolution( Player player , Pokemon pokemon){  
+      if(player.gold >= 300 && player.lvl>1 && pokemon.name.length < 15){
+         pokemon.name = pokemon.name+' x Evolution ';
+         pokemon.hp+=50;
          print('Already Evolution!');
          dargon();
+         pokemon.skill.clear();
+         if(pokemon.lvl==2){
+           pokemon.skill.add('FLAME GUARD (50 ATK) ');
+           pokemon.skill.add('FIRE REMNANT (+50 HP)');
+         }else if(pokemon.lvl==3){
+           pokemon.skill.add('FLAME GUARD (100 ATK) ');
+           pokemon.skill.add('FIRE REMNANT (+100 HP)');
+         }
          player.playerPokemon.clear();
-         player.playerPokemon.add(dk);
+         player.playerPokemon.add('\x1B[34m$dk\x1B[0m');
          player.gold-=300;
       }else{
         print(''' Can't evolution !!!  Need lvl2 & 300 gold''');
@@ -126,25 +135,25 @@ class Shop{
   }
   
   void dargon() {
-  int i = 0;
-  int x = 100;
-  while (i < 20) {
-    print1();
-    delay(x);
-    refresh();
-    print2();
-    delay(x);
-    refresh();
-    i++;
+    int i = 0;
+    int x = 100;
+    while (i < 20) {
+      print1();
+      delay(x);
+      refresh();
+      print2();
+      delay(x);
+      refresh();
+      i++;
+    }
   }
-}
-
-
+  
+  
   void print1() {
-    print('\x1B[31m$dk\x1B[0m');
+    print('\x1B[31m$dk\x1B[0m' );
   }
-void print2() {
+  void print2() {
     print('\x1B[34m$dk2\x1B[0m');
-}
+  }
 
 }
